@@ -8,5 +8,6 @@ export interface Answer {
   challenge_id: number;
   status: AnswerStatus;
   answer?: string;
+  output?: string;
   tested?: boolean;
 }
