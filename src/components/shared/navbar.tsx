@@ -24,14 +24,14 @@ const NavigationBar: React.FC = () => {
               style={{ width: "60px", height: "45px", marginRight: "16px" }}
             />
           </Link>
-          <Button color="inherit" component={Link} to="/aboutus">
-            About Us
-          </Button>
           <Button color="inherit" component={Link} to="/codingchallenge">
             Coding Challenge
           </Button>
           <Button color="inherit" component={Link} to="/leaderboard">
             Leaderboard
+          </Button>
+          <Button color="inherit" component={Link} to="/aboutus">
+            About Us
           </Button>
         </div>
         <div>

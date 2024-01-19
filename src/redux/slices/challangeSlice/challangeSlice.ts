@@ -1,39 +1,57 @@
 /* Core */
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { Challenge } from "../../../models";
+import { fetchChallenges } from "./thunks";
 
-const initialState: CounterSliceState = {
-  value: 0,
-  status: "idle",
+const initialState: ChallangeSliceState = {
+  selectedIndex: 0,
+  questionBank: [],
+  isFetchingQuestions: false,
+  error: null,
 };
 
 export const challangeSlice = createSlice({
-  name: "counter",
+  name: "challange",
   initialState,
-  reducers: {
-    // Increments the value by 1
-    increment(state) {
-      state.value++;
-    },
-    // Decrements the value by 1
-    decrement(state) {
-      state.value--;
-    },
-    // Increment the value based on provided input
-    incrementByAmount(state, action: PayloadAction<number>) {
-      state.value += action.payload;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchChallenges.pending, (state) => {
+        state.isFetchingQuestions = true;
+        state.error = null;
+      })
+      .addCase(
+        fetchChallenges.fulfilled,
+        (state, action: PayloadAction<Challenge[]>) => {
+          state.isFetchingQuestions = false;
+          state.questionBank = action.payload;
+          state.error = null;
+        }
+      )
+      .addCase(fetchChallenges.rejected, (state, action) => {
+        state.isFetchingQuestions = false;
+        state.error = action.error.message || "An error occurred";
+      });
   },
 });
 
 /* Types */
-export interface CounterSliceState {
-  value: number;
-  status: "idle" | "loading" | "failed";
+export interface ChallangeSliceState {
+  selectedIndex: number;
+  questionBank: Challenge[];
+  isFetchingQuestions: boolean;
+  error: string | null;
 }
 
-// Export actions from the slice
-export const { increment, decrement, incrementByAmount } =
-  challangeSlice.actions;
+export const selectIndex = (state: { challange: ChallangeSliceState }) =>
+  state.challange.selectedIndex;
+export const selectQuestionBank = (state: { challange: ChallangeSliceState }) =>
+  state.challange.questionBank;
+export const selectIsFetchingQuestions = (state: {
+  challange: ChallangeSliceState;
+}) => state.challange.isFetchingQuestions;
+export const selectError = (state: { challange: ChallangeSliceState }) =>
+  state.challange.error;
 
 // Export the reducer
 export default challangeSlice.reducer;

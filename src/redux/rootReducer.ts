@@ -9,5 +9,5 @@ const persistConfig = {
 };
 
 export const reducer = {
-  counter: persistReducer(persistConfig, challangeSlice.reducer),
+  challange: persistReducer(persistConfig, challangeSlice.reducer),
 };

@@ -1,18 +1,12 @@
 /* Instruments */
-import type { ReduxThunkAction } from "../../store";
-import { incrementByAmount } from "./challangeSlice";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { axiosBackendInstance } from "../../../api/axios-instance";
+import { Challenge } from "../../../models";
 
-export const incrementIfOddAsync =
-  (
-    amount: number,
-    setIncrementAmount: (num: number) => void
-  ): ReduxThunkAction =>
-  (dispatch, getState) => {
-    // Current count in counterSlice
-    const currCntVal = getState().counter.value;
-    if (currCntVal % 2 !== 0) {
-      dispatch(incrementByAmount(amount));
-      // Set value of input to 0 after dispatch
-      setIncrementAmount(0);
-    }
-  };
+export const fetchChallenges = createAsyncThunk<Challenge[]>(
+  "api/fetchChallenges",
+  async () => {
+    const response = await axiosBackendInstance.get("challenges");
+    return response.data as Challenge[];
+  }
+);

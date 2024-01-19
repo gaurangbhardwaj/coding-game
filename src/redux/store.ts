@@ -18,7 +18,7 @@ import { persistStore } from "redux-persist";
 const reduxStore = configureStore({
   reducer,
   middleware: (getDefaultMiddleware: any) =>
-    getDefaultMiddleware().concat(middleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(middleware),
 });
 export const persistor = persistStore(reduxStore);
 
