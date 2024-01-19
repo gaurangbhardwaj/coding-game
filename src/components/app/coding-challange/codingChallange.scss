@@ -1,0 +1,16 @@
+.coding-challange-container {
+  width: 100%;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  &__page-container {
+    display: flex;
+    gap: 15px;
+    &__items-container {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+  }
+}
