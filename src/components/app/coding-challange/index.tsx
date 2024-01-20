@@ -5,10 +5,12 @@ import ExampleList from "./components/example-list";
 import EditorConsole from "./components/editor-console";
 
 import "./codingChallange.scss";
+import Header from "./components/header";
 
 const CodingChallange: React.FC = () => {
   return (
     <div className="coding-challange-container">
+      <Header />
       <div className="coding-challange-container__page-container">
         <div className="coding-challange-container__page-container__items-container">
           <QuestionText />

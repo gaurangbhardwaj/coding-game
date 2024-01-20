@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo } from "react";
+import React, { memo, useEffect, useMemo } from "react";
 import { Button, CircularProgress, Alert } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -41,11 +41,11 @@ const EditorConsole: React.FC = () => {
     let appendedCode: string =
       answerSheet[selectedQueIdx]?.answer +
       " " +
-      (selectedQuestion?.test_function.join(" ") || "") +
+      (selectedQuestion?.test_function?.join(" ") || "") +
       " ";
     selectedQuestion?.testcase?.forEach((testcase: Examples) => {
       appendedCode +=
-        (testcase.input || "") + " " + (testcase.output || "") + " ";
+        (testcase?.input || "") + " " + (testcase?.output || "") + " ";
     });
 
     return appendedCode;
@@ -60,15 +60,20 @@ const EditorConsole: React.FC = () => {
     dispatch(executeCode(codeData));
   };
 
-  const updateAnswerSheet = useCallback(
-    (answer: string) => {
+  const updateAnswerSheet = (answer: string) => {
+    if (
+      !answerSheet[selectedQueIdx]?.tested &&
+      !answerSheet[selectedQueIdx]?.output
+    )
       dispatch(appendAnswer({ id: selectedQueIdx, answer }));
-    },
-    [dispatch, selectedQueIdx]
-  );
+  };
 
   useEffect(() => {
-    if (codeOuput?.output && !answerSheet[selectedQueIdx]?.output) {
+    if (
+      codeOuput?.output &&
+      !answerSheet[selectedQueIdx]?.output &&
+      !answerSheet[selectedQueIdx]?.tested
+    ) {
       const testedResult: [] = codeOuput.output.split(`\n`);
       const totalTestCases = selectedQuestion?.testcase?.length;
       const totalPassedCases = testedResult.reduce((acc, curr) => {
@@ -96,7 +101,7 @@ const EditorConsole: React.FC = () => {
         width="37vw"
         code={answerSheet[selectedQueIdx]?.answer || ""}
         onChange={updateAnswerSheet}
-        options={answerSheet[selectedQueIdx]?.tested ? { readOnly: true } : {}}
+        options={{ readOnly: answerSheet[selectedQueIdx]?.tested }}
       />
 
       <div>

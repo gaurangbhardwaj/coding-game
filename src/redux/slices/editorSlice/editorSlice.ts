@@ -14,7 +14,12 @@ const initialState: EditorSliceState = {
 export const editorSlice = createSlice({
   name: "editor",
   initialState,
-  reducers: {},
+  reducers: {
+    eraseOutput(state) {
+      state.output = "";
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchToken.pending, (state) => {
@@ -69,6 +74,8 @@ export const selectIsExecutingCode = (state: { editor: EditorSliceState }) =>
   state.editor.isExecutingCode;
 export const selectOutput = (state: { editor: EditorSliceState }) =>
   state.editor.output;
+
+export const { eraseOutput } = editorSlice.actions;
 
 // Export the reducer
 export default editorSlice.reducer;

@@ -1,0 +1,14 @@
+.header-container {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  &__section-container {
+    max-width: 1366px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: auto;
+    gap: 15px;
+  }
+}

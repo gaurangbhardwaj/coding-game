@@ -3,7 +3,6 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { Challenge } from "../../../models";
 import { fetchChallenges } from "./thunks";
 
-
 const initialState: ChallangeSliceState = {
   selectedIndex: 0,
   questionBank: [],
@@ -14,7 +13,11 @@ const initialState: ChallangeSliceState = {
 export const challangeSlice = createSlice({
   name: "challange",
   initialState,
-  reducers: {},
+  reducers: {
+    selectQuestion(state, action: PayloadAction<number>) {
+      state.selectedIndex = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchChallenges.pending, (state) => {
@@ -53,6 +56,8 @@ export const selectIsFetchingQuestions = (state: {
 }) => state.challange.isFetchingQuestions;
 export const selectError = (state: { challange: ChallangeSliceState }) =>
   state.challange.error;
+
+export const { selectQuestion } = challangeSlice.actions;
 
 // Export the reducer
 export default challangeSlice.reducer;

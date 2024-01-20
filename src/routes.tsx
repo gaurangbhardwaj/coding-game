@@ -14,6 +14,7 @@ const LandingPage = lazy(() => import("../src/components/guest/landing"));
 const CodingChallenge = lazy(
   () => import("../src/components/app/coding-challange")
 );
+const ScoreCard = lazy(() => import("../src/components/app/score-card"));
 
 const AppRoutes: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const AppRoutes: React.FC = () => {
             <Route path="/aboutus" Component={AboutUs} />
             <Route path="/leaderboard" Component={Leaderboard} />
             <Route path="/codingchallenge" Component={CodingChallenge} />
+            <Route path="/score-card" Component={ScoreCard} />
             <Route path="/" Component={LandingPage} />
           </Routes>
         </Suspense>

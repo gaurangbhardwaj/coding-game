@@ -1,7 +1,8 @@
 /* Core */
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { Answer, Challenge, AnswerStatus } from "../../../models";
-import { fetchChallenges, selectIndex } from "../index";
+import { fetchChallenges } from "../index";
+import { selectQuestionBank } from "../index";
 
 const initialState: AnswerSliceState = {
   score: 0,
@@ -29,6 +30,24 @@ export const answerSlice = createSlice({
         output: action.payload.output,
         tested: true,
       };
+      state.score++;
+    },
+    resetAnswers(state, action: PayloadAction<Challenge[]>) {
+      if (!action.payload.length) return;
+      const answerSheetData: Record<number, Answer> = action.payload.reduce(
+        (prev, curr) => ({
+          ...prev,
+          [curr.id]: {
+            challenge_id: curr.id,
+            status: AnswerStatus.NOT_STARTED,
+            answer: curr.default_code,
+            tested: false,
+          },
+        }),
+        {}
+      );
+      state.answerSheet = answerSheetData;
+      state.score = 0;
     },
   },
   extraReducers: (builder) => {
@@ -64,7 +83,7 @@ export const selectAnswerSheet = (state: { answer: AnswerSliceState }) =>
 export const selectScore = (state: { answer: AnswerSliceState }) =>
   state.answer.score;
 
-export const { appendAnswer, answerTested } = answerSlice.actions;
+export const { appendAnswer, answerTested, resetAnswers } = answerSlice.actions;
 
 // Export the reducer
 export default answerSlice.reducer;
