@@ -3,6 +3,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { Challenge } from "../../../models";
 import { fetchChallenges } from "./thunks";
 
+
 const initialState: ChallangeSliceState = {
   selectedIndex: 0,
   questionBank: [],

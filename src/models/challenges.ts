@@ -17,6 +17,6 @@ export interface Challenge {
   notes?: string[];
   examples: Examples[];
   default_code: string;
-  test_function: string[];
-  testcases: Testcase[];
+  test_function: string;
+  testcases: Testcase;
 }

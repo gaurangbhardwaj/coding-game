@@ -9,6 +9,7 @@ interface ICodeEditor {
   width?: string;
   lang?: string;
   defaultValue?: string;
+  options?: object;
 }
 
 const CodeEditor: React.FC<ICodeEditor> = ({
@@ -19,18 +20,18 @@ const CodeEditor: React.FC<ICodeEditor> = ({
   width = `600px`,
   lang = "javascript",
   defaultValue = "// Add you code here",
+  options = {},
 }) => {
-  const [value, setValue] = useState<string | undefined>(code || "");
   const handleEditorChange = (value: string | undefined) => {
-    setValue(value);
     onChange(value);
   };
   return (
     <Editor
+      options={options}
       height={height}
       width={width}
       language={lang}
-      value={value}
+      value={code}
       theme={theme}
       defaultValue={defaultValue}
       onChange={handleEditorChange}

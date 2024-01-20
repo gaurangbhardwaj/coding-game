@@ -1,8 +1,7 @@
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 /* Instruments */
-import { challangeSlice } from "./slices";
-import { answerSlice } from "./slices";
+import { challangeSlice, answerSlice, editorSlice } from "./slices";
 
 export const reducer = {
   challange: persistReducer(
@@ -10,4 +9,5 @@ export const reducer = {
     challangeSlice.reducer
   ),
   answer: persistReducer({ key: "answer", storage }, answerSlice.reducer),
+  editor: persistReducer({ key: "editor", storage }, editorSlice.reducer),
 };

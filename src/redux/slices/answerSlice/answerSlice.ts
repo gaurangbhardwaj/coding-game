@@ -1,7 +1,7 @@
 /* Core */
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { Answer, Challenge, AnswerStatus } from "../../../models";
-import { fetchChallenges } from "../index";
+import { fetchChallenges, selectIndex } from "../index";
 
 const initialState: AnswerSliceState = {
   score: 0,
@@ -22,17 +22,12 @@ export const answerSlice = createSlice({
         answer: action.payload.answer,
       };
     },
-    answerTested(state, action: PayloadAction<{ id: number }>) {
+    answerTested(state, action: PayloadAction<{ id: number; output: string }>) {
       state.answerSheet[action.payload.id] = {
         ...state.answerSheet[action.payload.id],
         status: AnswerStatus.COMPLETED,
-        tested: true,
-      };
-    },
-    answerOutput(state, action: PayloadAction<{ id: number; output: string }>) {
-      state.answerSheet[action.payload.id] = {
-        ...state.answerSheet[action.payload.id],
         output: action.payload.output,
+        tested: true,
       };
     },
   },
@@ -46,7 +41,7 @@ export const answerSlice = createSlice({
             [curr.id]: {
               challenge_id: curr.id,
               status: AnswerStatus.NOT_STARTED,
-              answer: "",
+              answer: curr.default_code,
               tested: false,
             },
           }),
@@ -69,7 +64,7 @@ export const selectAnswerSheet = (state: { answer: AnswerSliceState }) =>
 export const selectScore = (state: { answer: AnswerSliceState }) =>
   state.answer.score;
 
-export const { appendAnswer, answerTested, answerOutput } = answerSlice.actions;
+export const { appendAnswer, answerTested } = answerSlice.actions;
 
 // Export the reducer
 export default answerSlice.reducer;
