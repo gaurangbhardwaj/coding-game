@@ -76,8 +76,8 @@ const EditorConsole: React.FC = () => {
     ) {
       const testedResult: [] = codeOuput.output.split(`\n`);
       const totalTestCases = selectedQuestion?.testcase?.length;
-      const totalPassedCases = testedResult.reduce((acc, curr) => {
-        if (curr === "true") ++acc;
+      const totalPassedCases = testedResult.reduce((acc: number, curr: any) => {
+        if (curr?.includes("Passed")) ++acc;
         return acc;
       }, 0);
       if (totalTestCases === totalPassedCases) {
